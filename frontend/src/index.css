@@ -1,6 +1,64 @@
-/* index.css - Clean and minimal baseline */
+@import "tailwindcss";
 
-* {
+@font-face {
+  font-family: "Koulen";
+  src: url("/fonts/Koulen-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Segoe UI";
+  src: url("/fonts/Segoe UI.ttf") format("truetype");
+}
+
+@theme {
+  --color-bgC: #0c0c0c;
+  --color-blueC: #4ebbff;
+  --color-whiteC: #ffffff;
+  --font-koulen: "Koulen", sans-serif;
+  --font-segoe: "Segoe UI", sans-serif;
+}
+
+html {
+  height: 100%;
+  width: 100%;
+  background-color: #0c0c0c;
+  color: white;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  width: 100%;
+  background-color: #0c0c0c;
+  color: white;
+  scroll-behavior: smooth;
+}
+
+@utility bgcolor {
+  @apply bg-black text-white;
+}
+
+@utility headtext {
+  @apply text-5xl md:text-6xl font-koulen text-blueC text-center tracking-tight;
+}
+
+@utility subtext {
+  @apply text-sm md:text-base font-segoe text-gray-300 text-center tracking-tight;
+}
+
+@utility inputLabel {
+  @apply text-sm md:text-base font-segoe text-whiteC tracking-tight;
+}
+
+@utility bluebutton {
+  @apply bg-blueC text-whiteC font-segoe text-sm md:text-base px-4 py-2 rounded-md hover:bg-blue-600 transition duration-300 ease-in-out;
+}
+
+@utility flex-center {
+  @apply flex justify-center items-center;
+}
+
+/* * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -55,4 +113,4 @@ h6 {
   max-width: 1200px;
   margin: 0 auto;
   padding: 1rem;
-}
+} */
