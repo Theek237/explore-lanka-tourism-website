@@ -1,11 +1,11 @@
-import { User } from "../models/User.js";
 import bcrypt from "bcryptjs";
+import { User } from "../models/User.js";
 import { generateTokenAndSetCookie } from "../utils/generateToken.js";
 
 export async function registerUser(req, res) {
   try {
     console.log("Register User Called");
-    const { firstName, lastName, email, password } = req.body;
+    let { firstName, lastName, email, password } = req.body;
     if (!firstName || !lastName || !email || !password) {
       return res.status(400).json({ message: "All fields are required" });
     }
@@ -21,6 +21,8 @@ export async function registerUser(req, res) {
         .json({ message: "Password must be at least 6 characters long" });
     }
 
+    email = email.toLowerCase().trim();
+
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: "Email already exists" });
@@ -30,17 +32,18 @@ export async function registerUser(req, res) {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const newUser = new User({
-      firstName,
-      lastName,
+      firstName: firstName.trim(),
+      lastName: lastName.trim(),
       email,
       password: hashedPassword,
     });
     await newUser.save();
 
-    generateTokenAndSetCookie(newUser, res);
+    const token = generateTokenAndSetCookie(newUser, res);
 
     return res.status(201).json({
       message: "User registered successfully",
+      token,
       user: {
         _id: newUser._id,
         firstName: newUser.firstName,
@@ -56,7 +59,8 @@ export async function registerUser(req, res) {
 
 export async function loginUser(req, res) {
   try {
-    const { email, password } = req.body;
+    let { email, password } = req.body;
+    email = (email || "").toLowerCase().trim();
     if (!email || !password) {
       return res
         .status(400)
@@ -72,10 +76,10 @@ export async function loginUser(req, res) {
     if (!isPasswordMatch) {
       return res.status(400).json({ message: "Invalid email or password" });
     }
-    generateTokenAndSetCookie(user, res);
-
+    const token = generateTokenAndSetCookie(user, res);
     return res.status(200).json({
       message: "User logged in successfully",
+      token,
       user: {
         _id: user._id,
         firstName: user.firstName,
@@ -91,10 +95,30 @@ export async function loginUser(req, res) {
 
 export async function logOutUser(req, res) {
   try {
-    res.clearCookie("token");
+    // Clear cookie (match attributes used when setting)
+    res.cookie("token", "", {
+      maxAge: 0,
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+    });
     return res.status(200).json({ message: "User logged out successfully" });
   } catch (error) {
     console.error("Error logging out user:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+}
+
+export async function getMeUser(req, res) {
+  try {
+    // req.user injected by protect
+    const user = await User.findById(req.user._id).select("-password");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    return res.status(200).json(user);
+  } catch (error) {
+    console.error("Error fetching user:", error);
     return res.status(500).json({ message: "Internal server error" });
   }
 }

@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import { ENV_VARS } from "../config/envVars.js";
 
 export const generateTokenAndSetCookie = (user, res) => {
+  if (!ENV_VARS.JWT_SECRET) throw new Error("JWT secret not configured");
   const token = jwt.sign({ id: user._id }, ENV_VARS.JWT_SECRET, {
     expiresIn: "30d",
   });
@@ -12,4 +13,6 @@ export const generateTokenAndSetCookie = (user, res) => {
     secure: process.env.NODE_ENV === "production", // Use secure cookies in production
     sameSite: "strict", // Helps prevent CSRF attacks
   });
+
+  return token;
 };

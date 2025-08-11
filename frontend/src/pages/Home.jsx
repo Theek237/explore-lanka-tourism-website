@@ -1,12 +1,20 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import NavBar from "../components/NavBar";
+import { useAuth } from "../context/AuthContext";
 
 function Home() {
+  const { authenticated, ready } = useAuth();
+  const navigate = useNavigate();
   const titleRef = useRef();
   const subtitleRef = useRef();
   const buttonRef = useRef();
+
+  useEffect(() => {
+    if (ready && authenticated) navigate("/dashboard");
+  }, [ready, authenticated, navigate]);
 
   useGSAP(() => {
     gsap.from(titleRef.current, {
@@ -46,6 +54,7 @@ function Home() {
           <button
             ref={buttonRef}
             aria-label="Start Your Journey"
+            onClick={() => navigate("/login")}
             className="bg-blueC text-black font-semibold py-3 mt-5 px-4 rounded transition-colors hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
           >
             Start Your Journey
