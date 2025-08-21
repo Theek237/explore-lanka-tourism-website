@@ -3,14 +3,6 @@ import { useAuth } from "../context/AuthContext";
 
 export default function ProtectedRoute({ children, redirectTo = "/login" }) {
   const { authenticated, ready } = useAuth();
-  console.log(
-    "[ProtectedRoute] render. ready=",
-    ready,
-    " authenticated=",
-    authenticated,
-    " redirectTo=",
-    redirectTo
-  );
 
   if (!ready)
     return (
@@ -20,10 +12,6 @@ export default function ProtectedRoute({ children, redirectTo = "/login" }) {
     );
 
   if (!authenticated) {
-    console.log(
-      "[ProtectedRoute] Not authenticated. Redirecting to",
-      redirectTo
-    );
     return <Navigate to={redirectTo} replace />;
   }
 

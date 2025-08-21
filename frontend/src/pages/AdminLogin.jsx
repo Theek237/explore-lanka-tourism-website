@@ -1,29 +1,29 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import NavBar from "../components/NavBar";
-import { useAuth } from "../context/AuthContext";
+import { useAdminAuth } from "../context/AdminAuthContext";
 
-function Login() {
+function AdminLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [submitError, setSubmitError] = useState("");
   const navigate = useNavigate();
-  const { login, authenticated, ready, error } = useAuth();
+  const { adminLogin, isAdminAuthenticated, ready, error } = useAdminAuth();
 
   useEffect(() => {
-    if (ready && authenticated) {
-      navigate("/dashboard", { replace: true });
+    if (ready && isAdminAuthenticated) {
+      navigate("/admin/dashboard", { replace: true });
     }
-  }, [authenticated, ready, error, navigate]);
+  }, [isAdminAuthenticated, ready, error, navigate]);
 
-  async function handleLoginFormSubmit(e) {
+  async function handleAdminLoginFormSubmit(e) {
     e.preventDefault();
     setSubmitError("");
-    const result = await login({ email, password });
+    const result = await adminLogin({ email, password });
     if (result.ok) {
-      navigate("/dashboard", { replace: true });
+      navigate("/admin/dashboard", { replace: true });
     } else {
-      setSubmitError(result.error || "Login failed");
+      setSubmitError(result.error || "Admin login failed");
     }
   }
 
@@ -31,11 +31,14 @@ function Login() {
     <>
       <NavBar />
       <div className="min-h-screen bg-bgC flex flex-col items-center justify-center p-4">
-        <div className="bg-bgC p-10 rounded-2xl w-full max-w-xl border border-gray-700 ">
-          <h1 className="headtext">Log In to Your Account</h1>
-          <p className="text-gray-400 text-center mt-2 mb-8">
-            Your next adventure is just a password away.
-          </p>
+        <div className="bg-bgC p-10 rounded-2xl w-full max-w-xl border border-gray-700">
+          <div className="text-center mb-8">
+            <div className="text-6xl mb-4">🔐</div>
+            <h1 className="headtext">Admin Access</h1>
+            <p className="subtext">
+              Enter your administrator credentials to continue
+            </p>
+          </div>
 
           {/* Combined context error + submit error */}
           {(error || submitError) && (
@@ -46,64 +49,61 @@ function Login() {
 
           <form
             className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-5 items-center"
-            onSubmit={handleLoginFormSubmit}
+            onSubmit={handleAdminLoginFormSubmit}
           >
             {/* Email Row */}
-            <label htmlFor="email" className="text-gray-300 justify-self-end">
-              Email:
+            <label
+              htmlFor="admin-email"
+              className="text-gray-300 justify-self-end"
+            >
+              Admin Email:
             </label>
             <input
               type="email"
-              id="email"
+              id="admin-email"
               className="bg-[#2D2D2D] text-gray-200 rounded-md p-2.5 border-0 focus:outline-none focus:ring-2 focus:ring-sky-500"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter admin email"
+              required
             />
+
             {/* Password Row */}
             <label
-              htmlFor="password"
+              htmlFor="admin-password"
               className="text-gray-300 justify-self-end"
             >
-              Password:
+              Admin Password:
             </label>
             <input
               type="password"
-              id="password"
+              id="admin-password"
               className="bg-[#2D2D2D] text-gray-200 rounded-md p-2.5 border-0 focus:outline-none focus:ring-2 focus:ring-sky-500"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter admin password"
+              required
             />
-            {/* Forgot Password Link Row */}
-            <div /> {/* Empty cell for alignment */}
-            <div className="text-right">
-              <Link
-                to="/forgot-password"
-                className="text-sm text-sky-400 hover:underline"
-              >
-                Forgot Password?
-              </Link>
-            </div>
+
             {/* Login Button Row */}
             <button
               className="col-span-2 bg-sky-500 text-white font-semibold py-3 rounded-lg hover:bg-sky-600 transition-colors duration-200 mt-4"
               type="submit"
               disabled={!ready}
             >
-              {ready ? "Login" : "Checking Auth..."}
+              {ready ? "Access Admin Panel" : "Checking Authentication..."}
             </button>
           </form>
-        </div>
 
-        {/* Sign Up link below the form container */}
-        <p className="text-center text-gray-400 mt-8">
-          Don't have an account?{" "}
-          <Link to="/register" className="text-sky-400 hover:underline">
-            Sign Up
-          </Link>
-        </p>
+          <div className="mt-8 text-center">
+            <p className="text-gray-500 text-sm">
+              Only authorized administrators can access this area
+            </p>
+          </div>
+        </div>
       </div>
     </>
   );
 }
 
-export default Login;
+export default AdminLogin;

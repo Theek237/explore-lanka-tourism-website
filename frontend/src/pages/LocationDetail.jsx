@@ -6,7 +6,7 @@ import NavBar from "../components/NavBar";
 axios.defaults.withCredentials = true;
 
 function LocationDetail() {
-  const { id } = useParams();
+  const { identifier } = useParams();
   const [location, setLocation] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -16,7 +16,7 @@ function LocationDetail() {
     (async () => {
       try {
         const res = await axios.get(
-          `http://localhost:5000/api/locations/${id}`
+          `http://localhost:5000/api/locations/${identifier}`
         );
         if (active) {
           setLocation(res.data);
@@ -35,7 +35,7 @@ function LocationDetail() {
     return () => {
       active = false;
     };
-  }, [id]);
+  }, [identifier]);
 
   if (loading) {
     return (
@@ -131,11 +131,6 @@ function LocationDetail() {
                     />
                   </div>
                 ))}
-                {gallery.length === 1 && (
-                  <div className="rounded-xl border border-dashed border-gray-600 flex items-center justify-center text-gray-500 text-xs">
-                    Add more images (images[])
-                  </div>
-                )}
               </div>
             </div>
           )}

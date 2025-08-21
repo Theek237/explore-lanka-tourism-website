@@ -4,7 +4,6 @@ import { generateTokenAndSetCookie } from "../utils/generateToken.js";
 
 export async function registerUser(req, res) {
   try {
-    console.log("Register User Called");
     let { firstName, lastName, email, password } = req.body;
     if (!firstName || !lastName || !email || !password) {
       return res.status(400).json({ message: "All fields are required" });
@@ -49,6 +48,7 @@ export async function registerUser(req, res) {
         firstName: newUser.firstName,
         lastName: newUser.lastName,
         email: newUser.email,
+        role: newUser.role,
       },
     });
   } catch (error) {
@@ -85,6 +85,7 @@ export async function loginUser(req, res) {
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
+        role: user.role,
       },
     });
   } catch (error) {
@@ -95,12 +96,12 @@ export async function loginUser(req, res) {
 
 export async function logOutUser(req, res) {
   try {
-    // Clear cookie (match attributes used when setting)
-    res.cookie("token", "", {
-      maxAge: 0,
+    // Ensure cookie cleared with same attributes (adjust name if different in generateTokenAndSetCookie)
+    res.clearCookie("token", {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
+      path: "/", // match cookie path
     });
     return res.status(200).json({ message: "User logged out successfully" });
   } catch (error) {
@@ -119,6 +120,43 @@ export async function getMeUser(req, res) {
     return res.status(200).json(user);
   } catch (error) {
     console.error("Error fetching user:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+}
+
+export async function adminLogin(req, res) {
+  try {
+    let { email, password } = req.body;
+    email = (email || "").toLowerCase().trim();
+    if (!email || !password) {
+      return res
+        .status(400)
+        .json({ message: "Email and password are required" });
+    }
+    const user = await User.findOne({ email, role: "admin" });
+    if (!user) {
+      return res.status(400).json({ message: "Invalid admin credentials" });
+    }
+
+    const isPasswordMatch = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordMatch) {
+      return res.status(400).json({ message: "Invalid admin credentials" });
+    }
+    const token = generateTokenAndSetCookie(user, res);
+    return res.status(200).json({
+      message: "Admin logged in successfully",
+      token,
+      user: {
+        _id: user._id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        role: user.role,
+      },
+    });
+  } catch (error) {
+    console.error("Error logging in admin:", error);
     return res.status(500).json({ message: "Internal server error" });
   }
 }

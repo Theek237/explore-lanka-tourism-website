@@ -1,5 +1,10 @@
 import express from "express";
-import { protect } from "../middleware/authMiddleware.js";
+import {
+  addLocation,
+  deleteLocation,
+  updateLocation,
+} from "../controllers/locationController.js";
+import { adminProtect } from "../middleware/authMiddleware.js";
 import { Location } from "../models/Location.js";
 
 const router = express.Router();
@@ -25,14 +30,9 @@ router.get("/:identifier", async (req, res) => {
   }
 });
 
-// Protected create (keep restricted)
-router.post("/", protect, async (req, res) => {
-  try {
-    const created = await Location.create(req.body);
-    res.status(201).json(created);
-  } catch (e) {
-    res.status(400).json({ message: e.message || "Failed to create location" });
-  }
-});
+// Admin-only routes
+router.post("/", adminProtect, addLocation);
+router.put("/:id", adminProtect, updateLocation);
+router.delete("/:id", adminProtect, deleteLocation);
 
 export default router;

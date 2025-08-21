@@ -14,12 +14,6 @@ function Register() {
 
   async function handleRegisterFormSubmit(e) {
     e.preventDefault();
-    console.log("Registration Data Submitted");
-    console.log("First Name: ", firstName);
-    console.log("Last Name: ", lastName);
-    console.log("Email: ", email);
-    console.log("Password: ", password);
-    console.log("Confirm Password: ", confirmPassword);
     setError("");
     setSuccess("");
 
@@ -52,10 +46,8 @@ function Register() {
       setEmail("");
       setPassword("");
       setConfirmPassword("");
-      console.log("Registration successful:", res.data);
     } catch (error) {
       setError(error.response?.data?.message || "Registration failed");
-      console.error("Error during registration:", error);
     }
   }
 
