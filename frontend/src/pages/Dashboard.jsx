@@ -6,7 +6,6 @@ export default function Dashboard() {
     <div className="min-h-screen bg-bgC text-white">
       <NavBar />
       <div className="container mx-auto px-4 pt-16">
-        {/* Hero Section */}
         <div className="text-center mb-16">
           <h1 className="font-koulen text-6xl md:text-8xl tracking-tight mb-6 bg-gradient-to-r from-blueC to-blue-300 bg-clip-text text-transparent">
             Welcome Back, Explorer
@@ -17,7 +16,6 @@ export default function Dashboard() {
           </p>
         </div>
 
-        {/* Quick Actions */}
         <div className="max-w-4xl mx-auto mb-16">
           <h2 className="font-koulen text-4xl text-blueC mb-10 text-center">
             Quick Actions
@@ -47,7 +45,6 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Features Grid */}
         <div className="max-w-6xl mx-auto">
           <h2 className="font-koulen text-4xl text-blueC mb-10 text-center">
             What You Can Do
@@ -94,7 +91,6 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Call to Action */}
         <div className="text-center pb-16">
           <div className="max-w-2xl mx-auto bg-gradient-to-r from-blueC/10 to-blue-300/10 border border-blueC/30 rounded-xl p-8">
             <h3 className="font-koulen text-2xl text-white mb-3">

@@ -37,7 +37,6 @@ function Login() {
             Your next adventure is just a password away.
           </p>
 
-          {/* Combined context error + submit error */}
           {(error || submitError) && (
             <div className="text-red-400 text-center mb-4">
               {submitError || error}

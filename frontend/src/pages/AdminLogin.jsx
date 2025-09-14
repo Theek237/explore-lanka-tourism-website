@@ -33,7 +33,6 @@ function AdminLogin() {
       <div className="min-h-screen bg-bgC flex flex-col items-center justify-center p-4">
         <div className="bg-bgC p-10 rounded-2xl w-full max-w-xl border border-gray-700">
           <div className="text-center mb-8">
-            <div className="text-6xl mb-4">🔐</div>
             <h1 className="headtext">Admin Access</h1>
             <p className="subtext">
               Enter your administrator credentials to continue
@@ -51,7 +50,6 @@ function AdminLogin() {
             className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-5 items-center"
             onSubmit={handleAdminLoginFormSubmit}
           >
-            {/* Email Row */}
             <label
               htmlFor="admin-email"
               className="text-gray-300 justify-self-end"
@@ -68,7 +66,6 @@ function AdminLogin() {
               required
             />
 
-            {/* Password Row */}
             <label
               htmlFor="admin-password"
               className="text-gray-300 justify-self-end"
@@ -85,7 +82,6 @@ function AdminLogin() {
               required
             />
 
-            {/* Login Button Row */}
             <button
               className="col-span-2 bg-sky-500 text-white font-semibold py-3 rounded-lg hover:bg-sky-600 transition-colors duration-200 mt-4"
               type="submit"

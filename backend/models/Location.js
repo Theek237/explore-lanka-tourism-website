@@ -13,9 +13,9 @@ const LocationSchema = new mongoose.Schema(
       required: true,
     },
     image: {
-      type: String, // URL or path to image
+      type: String,
     },
-    images: [{ type: String }], // optional gallery
+    images: [{ type: String }],
     coordinates: {
       lat: { type: Number },
       lng: { type: Number },
@@ -27,7 +27,6 @@ const LocationSchema = new mongoose.Schema(
       sparse: true,
       trim: true,
     },
-    // Add more fields as needed
   },
   { timestamps: true }
 );

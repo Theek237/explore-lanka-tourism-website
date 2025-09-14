@@ -10,9 +10,9 @@ const app = express(); // Create an Express application
 app.use(
   cors({
     origin: ENV_VARS.CLIENT_URL, // Allow requests from the client URL
-    credentials: true,
+    credentials: true, // Allow credentials (cookies, authorization headers, etc.)
   })
-); // Enable CORS for all routes
+);
 app.use(express.json()); // Middleware to parse JSON bodies
 app.use(cookieParser()); // Middleware to parse cookies
 

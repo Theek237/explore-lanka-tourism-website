@@ -84,9 +84,7 @@ export function AuthProvider({ children }) {
   const logout = async () => {
     try {
       await axiosClient.post("/api/auth/logout");
-    } catch (e) {
-      // Ignore logout endpoint errors
-    }
+    } catch (e) {}
     localStorage.removeItem("token");
     setUser(null);
   };

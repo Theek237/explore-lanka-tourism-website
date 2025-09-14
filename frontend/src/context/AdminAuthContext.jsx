@@ -25,7 +25,6 @@ export function AdminAuthProvider({ children }) {
       setError(null);
       const { data } = await axiosClient.get("/api/auth/me");
 
-      // Check if user is admin
       if (data.role !== "admin") {
         setAdminUser(null);
         return false;
@@ -90,9 +89,7 @@ export function AdminAuthProvider({ children }) {
   const adminLogout = async () => {
     try {
       await axiosClient.post("/api/auth/logout");
-    } catch (e) {
-      // Ignore logout endpoint errors
-    }
+    } catch (e) {}
     localStorage.removeItem("adminToken");
     setAdminUser(null);
   };
