@@ -1,0 +1,52 @@
+version: "3.8"
+
+services:
+  # 1. Frontend Service (React)
+  client:
+    build: ./frontend # ./frontend folder එකේ තියෙන Dockerfile එකෙන් build කරන්න
+    container_name: mern-client
+    ports:
+      - "3000:5173" # Computer එකේ port 3000, container එකේ Vite run වෙන port 5173 ට map කරන්න
+    volumes:
+      - ./frontend:/app # Code වෙනස් කරද්දි auto update වෙන්න
+      - /app/node_modules
+
+    stdin_open: true
+    tty: true
+    depends_on:
+      - server
+
+  # 2. Backend Service (Node.js/Express)
+  server:
+    build: ./backend # ./backend folder එකේ තියෙන Dockerfile එකෙන් build කරන්න
+    container_name: mern-server
+    ports:
+      - "5000:5000" # Computer එකේ port 5000, container එකේ port 5000 ට map කරන්න
+    volumes:
+      - ./backend:/app # Code වෙනස් කරද්දි auto update වෙන්න
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/explore_lanka_db # Database එකට connect වෙන URI එක
+      - CLIENT_URL=http://localhost:3000
+    depends_on:
+      - mongo # 'mongo' service එක start වුනාට පස්සෙ මේක start කරන්න
+
+  admin-seeder:
+    build: ./backend
+    container_name: mern-admin-seeder
+    command: node createAdmin.js
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/explore_lanka_db
+    depends_on:
+      - mongo # IMPORTANT: Wait for the database to be ready
+  # 3. Database Service (MongoDB)
+  mongo:
+    image: mongo:latest
+    container_name: mern-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db # Database files ටික computer එකේ save කරලා තියාගන්න
+
+# Data ටික save කරලා තියාගන්න හදන named volume එක
+volumes:
+  mongo-data:

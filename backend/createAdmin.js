@@ -5,8 +5,13 @@ import { User } from "./models/User.js";
 
 async function createAdminUser() {
   try {
-    await mongoose.connect(ENV_VARS.MONGO_URI);
-
+    const mongoUriToUse = process.env.MONGO_URI || ENV_VARS.MONGO_URI;
+    if (!mongoUriToUse) {
+      throw new Error(
+        "MONGO_URI not found. Please set it in your environment variables."
+      );
+    }
+    await mongoose.connect(mongoUriToUse);
     // Check if admin already exists
     const existingAdmin = await User.findOne({ role: "admin" });
     if (existingAdmin) {
