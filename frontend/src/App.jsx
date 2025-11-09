@@ -17,6 +17,7 @@ import Register from "./pages/Register.jsx";
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
+
 export default function App() {
   return (
     <AuthProvider>
