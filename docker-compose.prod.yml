@@ -12,7 +12,7 @@ services:
   frontend:
     image: ${DOCKERHUB_USERNAME}/explore-lanka-client:latest
     environment:
-      - VITE_API_URL=
+      - VITE_API_URL=/
     depends_on:
       - backend
 
