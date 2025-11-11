@@ -45,14 +45,13 @@ pipeline {
                 }
             }
         }
-    }
-
-    stage('Deploy to AWS') {
-        steps {
-            script {
-                echo 'Deploying the new images to AWS server...'
-                dir('infra') {
-                    sh "ansible-playbook -i inventory.ini playbook.yml --ssh-common-args='-o StrictHostKeyChecking=no'"
+        stage('Deploy to AWS') {
+            steps {
+                script {
+                    echo 'Deploying the new images to AWS server...'
+                    dir('infra') {
+                        sh "ansible-playbook -i inventory.ini playbook.yml --ssh-common-args='-o StrictHostKeyChecking=no'"
+                    }
                 }
             }
         }
