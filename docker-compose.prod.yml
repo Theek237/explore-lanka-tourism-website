@@ -24,6 +24,22 @@ services:
       - NODE_ENV=production
     depends_on:
       - mongo
+  
+  # One-off admin seeder (run on demand)
+  # Usage examples:
+  #   docker compose -f docker-compose.prod.yml --profile seeder run --rm admin-seeder
+  #   ADMIN_EMAIL=admin@example.com ADMIN_PASSWORD='S3cure!' docker compose -f docker-compose.prod.yml --profile seeder run --rm admin-seeder
+  admin-seeder:
+    image: ${DOCKERHUB_USERNAME}/explore-lanka-server:latest
+    command: node createAdmin.js
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/explore-lanka
+      - ADMIN_EMAIL=${ADMIN_EMAIL:-admin@explorelanka.com}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin123}
+    depends_on:
+      - mongo
+    profiles: ["seeder"]
+      
 
   mongo:
     image: mongo:latest
