@@ -46,15 +46,17 @@ pipeline {
             }
         }
         stage('Deploy to AWS') {
-        steps {
-            script {
-                echo 'Deploying the new images to AWS server...'
-                dir('infra') {
-                    sh """
-                      ansible-playbook -i inventory.ini playbook.yml \\
-                        --private-key explore-lanka-key.pem \\
-                        --ssh-common-args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
-                    """
+            steps {
+                sshagent(credentials: ['aws-ssh-key']) {
+                    script {
+                        echo 'Deploying the new images to AWS server...'
+                        dir('infra') {
+                            sh """
+                              ansible-playbook -i inventory.ini playbook.yml \\
+                                --ssh-common-args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
+                            """
+                        }
+                    }
                 }
             }
         }
