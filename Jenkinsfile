@@ -17,6 +17,7 @@ pipeline {
                 }
             }
         }
+
         stage('Build Backend Image') {
             steps {
                 script {
@@ -27,6 +28,7 @@ pipeline {
                 }
             }
         }
+
         stage('Push Images to Docker Hub') {
             steps {
                 script {
@@ -45,6 +47,7 @@ pipeline {
                 }
             }
         }
+
         stage('Deploy to AWS') {
             steps {
                 sshagent(credentials: ['aws-ssh-key']) {
@@ -60,8 +63,7 @@ pipeline {
                 }
             }
         }
-    
-    
+    } 
 
     post {
         always {
