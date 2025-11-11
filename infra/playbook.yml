@@ -49,6 +49,17 @@
         src: ../docker-compose.prod.yml
         dest: /home/ubuntu/docker-compose.yml
 
+    - name: Create infra directory on server
+      file:
+        path: /home/ubuntu/infra
+        state: directory
+
+    - name: Copy nginx.conf to the server
+      copy:
+        src: ./nginx.conf 
+        dest: /home/ubuntu/infra/nginx.conf
+
+
     - name: Run docker compose up
       shell: |
         export DOCKERHUB_USERNAME={{ dockerhub_username }}
