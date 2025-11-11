@@ -56,7 +56,7 @@
 
     - name: Copy nginx.conf to the server
       copy:
-        src: ./nginx.conf 
+        src: nginx.conf 
         dest: /home/ubuntu/infra/nginx.conf
 
 
