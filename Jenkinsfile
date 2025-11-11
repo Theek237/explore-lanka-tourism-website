@@ -46,33 +46,19 @@ pipeline {
             }
         }
         stage('Deploy to AWS') {
-            steps {
-                script {
-                    echo 'Deploying the new images to AWS server...'
-                    dir('infra') {
-                        if (fileExists('explore-lanka-key.pem')) {
-                            // Use key from repo
-                            sh '''
-                              chmod 600 explore-lanka-key.pem || true
-                              ansible-playbook -i inventory.ini playbook.yml \
-                                --private-key explore-lanka-key.pem \
-                                --ssh-common-args='-o StrictHostKeyChecking=no'
-                            '''
-                        } else {
-                            // Fallback to Jenkins SSH credentials (configure this ID in Jenkins)
-                            withCredentials([sshUserPrivateKey(credentialsId: 'explore-lanka-ssh-key', keyFileVariable: 'SSH_KEY_FILE', usernameVariable: 'SSH_USER')]) {
-                                sh '''
-                                  chmod 600 "$SSH_KEY_FILE" || true
-                                  ansible-playbook -i inventory.ini playbook.yml \
-                                    --private-key "$SSH_KEY_FILE" \
-                                    --ssh-common-args='-o StrictHostKeyChecking=no'
-                                '''
-                            }
-                        }
-                    }
+        steps {
+            script {
+                echo 'Deploying the new images to AWS server...'
+                dir('infra') {
+                    sh """
+                      ansible-playbook -i inventory.ini playbook.yml \\
+                        --private-key explore-lanka-key.pem \\
+                        --ssh-common-args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
+                    """
                 }
             }
         }
+    }
     }
 
     post {
