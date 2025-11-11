@@ -1,19 +1,26 @@
 version: '3.8'
 
 services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80" 
+    volumes:
+      - ./infra/nginx.conf:/etc/nginx/conf.d/default.conf 
+    depends_on:
+      - frontend
+      - backend
+  # -----------------------------------------
+
   frontend:
     image: ${DOCKERHUB_USERNAME}/explore-lanka-client:latest
-    ports:
-      - "80:5173" # Map host's port 80 to container's port 5173
     environment:
-      - VITE_API_URL=http://backend:5000
+      - VITE_API_URL= 
     depends_on:
       - backend
 
   backend:
     image: ${DOCKERHUB_USERNAME}/explore-lanka-server:latest
-    ports:
-      - "5000:5000"
     environment:
       - MONGO_URI=mongodb://mongo:27017/explore-lanka
       - JWT_SECRET=${JWT_SECRET}
