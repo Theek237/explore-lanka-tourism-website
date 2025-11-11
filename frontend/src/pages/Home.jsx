@@ -3,6 +3,7 @@ import gsap from "gsap";
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import NavBar from "../components/NavBar";
+import Footer from "../components/Footer";
 import { useAuth } from "../context/AuthContext";
 
 function Home() {
@@ -36,18 +37,18 @@ function Home() {
   return (
     <>
       <div
-        className="h-screen bg-cover bg-center"
+        className="min-h-screen bg-cover bg-center"
         style={{ backgroundImage: "url('/images/sigiriyahero.png')" }}
       >
         <NavBar />
-        <div className="flex flex-col items-center container mx-auto text-center">
+        <div className="flex flex-col items-center app-container text-center animate-fade-up">
           <h1
             ref={titleRef}
-            className="font-koulen text-5xl px-8 md:text-7xl pt-60 tracking-tight"
+            className="heading-xl font-koulen px-8 pt-48 md:pt-56 heading-gradient"
           >
             YOUR SRI LANKAN ADVENTURE BEGINS
           </h1>
-          <p ref={subtitleRef} className="font-segoe text-sm md:text-base">
+          <p ref={subtitleRef} className="font-segoe text-sm md:text-base text-white/85 max-w-2xl">
             A land of ancient ruins, misty mountains, and golden beaches is
             waiting. Let's start planning your unforgettable journey.
           </p>
@@ -55,7 +56,7 @@ function Home() {
             ref={buttonRef}
             aria-label="Start Your Journey"
             onClick={() => navigate("/login")}
-            className="bg-blueC text-black font-semibold py-3 mt-5 px-4 rounded transition-colors hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="btn-primary mt-5"
           >
             Start Your Journey
           </button>
@@ -96,13 +97,15 @@ function Home() {
               className="absolute h-[297px] w-[201.77px] z-8 -right-44"
             />
           </div>
-          <p className="text-sm opacity-80 px-10 md:px-40 mt-6 leading-4">
+          <p className="text-sm opacity-80 px-10 md:px-40 mt-6 leading-6 max-w-3xl mx-auto">
             Whether you're chasing the sun on pristine coastlines, seeking
             encounters with majestic wildlife, or riding through
             <br /> breathtaking highlands, every moment is a memory.
           </p>
         </div>
       </div>
+
+      <Footer />
     </>
   );
 }

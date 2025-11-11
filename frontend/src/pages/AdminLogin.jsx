@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NavBar from "../components/NavBar";
+import Footer from "../components/Footer";
 import { useAdminAuth } from "../context/AdminAuthContext";
 
 function AdminLogin() {
@@ -30,74 +31,50 @@ function AdminLogin() {
   return (
     <>
       <NavBar />
-      <div className="min-h-screen bg-bgC flex flex-col items-center justify-center p-4">
-        <div className="bg-bgC p-10 rounded-2xl w-full max-w-xl border border-gray-700">
-          <div className="text-center mb-8">
-            <h1 className="headtext">Admin Access</h1>
-            <p className="subtext">
-              Enter your administrator credentials to continue
-            </p>
+      <div className="auth-wrap">
+        <div className="form-card animate-fade-up">
+          <div className="form-header">
+            <h1 className="heading-xl font-koulen mb-2 heading-gradient">Admin Access</h1>
+            <p className="subtext text-white/70 max-w-md mx-auto">Enter your administrator credentials to continue</p>
           </div>
-
-          {/* Combined context error + submit error */}
           {(error || submitError) && (
-            <div className="text-red-400 text-center mb-4">
+            <div className="alert-error text-sm mb-4 text-center">
               {submitError || error}
             </div>
           )}
-
-          <form
-            className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-5 items-center"
-            onSubmit={handleAdminLoginFormSubmit}
-          >
-            <label
-              htmlFor="admin-email"
-              className="text-gray-300 justify-self-end"
-            >
-              Admin Email:
-            </label>
+          <form onSubmit={handleAdminLoginFormSubmit} className="form-grid">
+            <label htmlFor="admin-email" className="label text-right sm:text-left">Admin Email</label>
             <input
               type="email"
               id="admin-email"
-              className="bg-[#2D2D2D] text-gray-200 rounded-md p-2.5 border-0 focus:outline-none focus:ring-2 focus:ring-sky-500"
+              className="input"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter admin email"
+              placeholder="admin@example.com"
               required
+              autoComplete="email"
             />
-
-            <label
-              htmlFor="admin-password"
-              className="text-gray-300 justify-self-end"
-            >
-              Admin Password:
-            </label>
+            <label htmlFor="admin-password" className="label text-right sm:text-left">Admin Password</label>
             <input
               type="password"
               id="admin-password"
-              className="bg-[#2D2D2D] text-gray-200 rounded-md p-2.5 border-0 focus:outline-none focus:ring-2 focus:ring-sky-500"
+              className="input"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter admin password"
+              placeholder="••••••••"
               required
+              autoComplete="current-password"
             />
-
-            <button
-              className="col-span-2 bg-sky-500 text-white font-semibold py-3 rounded-lg hover:bg-sky-600 transition-colors duration-200 mt-4"
-              type="submit"
-              disabled={!ready}
-            >
-              {ready ? "Access Admin Panel" : "Checking Authentication..."}
-            </button>
+            <div className="sm:col-span-2 mt-2">
+              <button type="submit" disabled={!ready} className="btn-primary btn-block">
+                {ready ? "Access Admin Panel" : "Checking Authentication..."}
+              </button>
+            </div>
           </form>
-
-          <div className="mt-8 text-center">
-            <p className="text-gray-500 text-sm">
-              Only authorized administrators can access this area
-            </p>
-          </div>
+          <p className="text-center text-white/50 text-xs mt-8 tracking-wide">Only authorized administrators can access this area</p>
         </div>
       </div>
+      <Footer />
     </>
   );
 }

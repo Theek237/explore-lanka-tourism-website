@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import NavBar from "../components/NavBar";
+import LocationDetailSkeleton from "../components/LocationDetailSkeleton";
 
 axios.defaults.withCredentials = true;
 
@@ -41,11 +42,8 @@ function LocationDetail() {
     return (
       <>
         <NavBar />
-        <div className="min-h-screen flex items-center justify-center bg-bgC">
-          <div className="text-center">
-            <div className="h-10 w-10 mx-auto mb-4 border-2 border-blueC border-t-transparent rounded-full animate-spin" />
-            <p className="text-gray-400 text-sm">Loading location...</p>
-          </div>
+        <div className="min-h-screen bg-bgC">
+          <LocationDetailSkeleton />
         </div>
       </>
     );

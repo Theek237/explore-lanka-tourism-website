@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  frontend:
+    image: ${DOCKERHUB_USERNAME}/explore-lanka-client:latest
+    ports:
+      - "80:5173" # Map host's port 80 to container's port 5173
+    depends_on:
+      - backend
+
+  backend:
+    image: ${DOCKERHUB_USERNAME}/explore-lanka-server:latest
+    ports:
+      - "5000:5000"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/explore-lanka
+      - JWT_SECRET=${JWT_SECRET}
+      - NODE_ENV=production
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:latest
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:

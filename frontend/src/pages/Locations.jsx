@@ -1,7 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import LocationCard from "../components/LocationCard";
+import LocationCardSkeleton from "../components/LocationCardSkeleton";
 import NavBar from "../components/NavBar";
+import Footer from "../components/Footer";
 
 // Configure axios defaults
 axios.defaults.withCredentials = true;
@@ -41,7 +43,7 @@ function Locations() {
     <>
       <NavBar />
       <div className="min-h-screen bg-bgC py-8">
-        <div className="container mx-auto px-4">
+        <div className="app-container">
           {/* Header Section */}
           <div className="text-center mb-8">
             <h1 className="headtext">
@@ -62,9 +64,10 @@ function Locations() {
 
           {/* Loading State */}
           {loading && (
-            <div className="text-center py-8">
-              <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blueC"></div>
-              <p className="mt-2 text-gray-600">Loading...</p>
+            <div className="mx-auto max-w-6xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-center place-items-center">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <LocationCardSkeleton key={i} />
+              ))}
             </div>
           )}
 
@@ -93,6 +96,7 @@ function Locations() {
           )}
         </div>
       </div>
+      <Footer />
     </>
   );
 }

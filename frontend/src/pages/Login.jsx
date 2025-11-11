@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import NavBar from "../components/NavBar";
+import Footer from "../components/Footer";
 import { useAuth } from "../context/AuthContext";
 
 function Login() {
@@ -30,77 +31,59 @@ function Login() {
   return (
     <>
       <NavBar />
-      <div className="min-h-screen bg-bgC flex flex-col items-center justify-center p-4">
-        <div className="bg-bgC p-10 rounded-2xl w-full max-w-xl border border-gray-700 ">
-          <h1 className="headtext">Log In to Your Account</h1>
-          <p className="text-gray-400 text-center mt-2 mb-8">
-            Your next adventure is just a password away.
-          </p>
-
+      <div className="auth-wrap">
+        <div className="form-card animate-fade-up">
+          <div className="form-header">
+            <h1 className="heading-xl font-koulen mb-2 heading-gradient">Log In</h1>
+            <p className="subtext text-white/70 max-w-md mx-auto">
+              Your next adventure is just a password away.
+            </p>
+          </div>
           {(error || submitError) && (
-            <div className="text-red-400 text-center mb-4">
+            <div className="alert-error text-sm mb-4 text-center">
               {submitError || error}
             </div>
           )}
-
-          <form
-            className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-5 items-center"
-            onSubmit={handleLoginFormSubmit}
-          >
-            {/* Email Row */}
-            <label htmlFor="email" className="text-gray-300 justify-self-end">
-              Email:
-            </label>
+          <form onSubmit={handleLoginFormSubmit} className="form-grid">
+            <label htmlFor="email" className="label text-right sm:text-left">Email</label>
             <input
               type="email"
               id="email"
-              className="bg-[#2D2D2D] text-gray-200 rounded-md p-2.5 border-0 focus:outline-none focus:ring-2 focus:ring-sky-500"
+              className="input"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              required
+              autoComplete="email"
             />
-            {/* Password Row */}
-            <label
-              htmlFor="password"
-              className="text-gray-300 justify-self-end"
-            >
-              Password:
-            </label>
+            <label htmlFor="password" className="label text-right sm:text-left">Password</label>
             <input
               type="password"
               id="password"
-              className="bg-[#2D2D2D] text-gray-200 rounded-md p-2.5 border-0 focus:outline-none focus:ring-2 focus:ring-sky-500"
+              className="input"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              required
+              autoComplete="current-password"
             />
-            {/* Forgot Password Link Row */}
-            <div /> {/* Empty cell for alignment */}
-            <div className="text-right">
-              <Link
-                to="/forgot-password"
-                className="text-sm text-sky-400 hover:underline"
-              >
-                Forgot Password?
+            <div className="hidden sm:block" />
+            <div className="flex justify-end -mt-2">
+              <Link to="/forgot-password" className="text-xs text-blueC hover:underline">
+                Forgot password?
               </Link>
             </div>
-            {/* Login Button Row */}
-            <button
-              className="col-span-2 bg-sky-500 text-white font-semibold py-3 rounded-lg hover:bg-sky-600 transition-colors duration-200 mt-4"
-              type="submit"
-              disabled={!ready}
-            >
-              {ready ? "Login" : "Checking Auth..."}
-            </button>
+            <div className="sm:col-span-2 mt-2">
+              <button type="submit" disabled={!ready} className="btn-primary btn-block">
+                {ready ? "Login" : "Checking Auth..."}
+              </button>
+            </div>
           </form>
+          <p className="text-center text-white/60 text-sm mt-8">
+            Don't have an account?{' '}
+            <Link to="/register" className="text-blueC hover:underline font-medium">Sign Up</Link>
+          </p>
         </div>
-
-        {/* Sign Up link below the form container */}
-        <p className="text-center text-gray-400 mt-8">
-          Don't have an account?{" "}
-          <Link to="/register" className="text-sky-400 hover:underline">
-            Sign Up
-          </Link>
-        </p>
       </div>
+      <Footer />
     </>
   );
 }

@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import NavBar from "../components/NavBar";
+import Footer from "../components/Footer";
 
 function Register() {
   const [firstName, setFirstName] = useState("");
@@ -54,103 +55,86 @@ function Register() {
   return (
     <>
       <NavBar />
-      <div className="min-h-screen bg-bgC flex flex-col items-center justify-center p-4">
-        <div className="bg-bgC p-10 rounded-2xl w-full max-w-xl border border-gray-700">
-          <h1 className="headtext">Create Your Account</h1>
-          <p className="text-gray-400 text-center mt-2 mb-8">
-            It only takes a minute to unlock a world of travel planning tools.
-          </p>
+      <div className="auth-wrap">
+        <div className="form-card animate-fade-up">
+          <div className="form-header">
+            <h1 className="heading-xl font-koulen mb-2 heading-gradient">Create Your Account</h1>
+            <p className="subtext text-white/70 max-w-md mx-auto">
+              It only takes a minute to unlock a world of travel planning tools.
+            </p>
+          </div>
 
-          {error && <p className="text-red-500 text-center mb-4">{error}</p>}
-          {success && (
-            <p className="text-green-500 text-center mb-4">{success}</p>
-          )}
+          {error && <p className="alert-error text-sm text-center mb-4">{error}</p>}
+          {success && <p className="alert-success text-sm text-center mb-4">{success}</p>}
 
-          <form
-            className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-5 items-center"
-            onSubmit={handleRegisterFormSubmit}
-          >
-            <label
-              htmlFor="firstName"
-              className="text-gray-300 justify-self-end"
-            >
-              First Name:
-            </label>
+          <form className="form-grid" onSubmit={handleRegisterFormSubmit}>
+            <label htmlFor="firstName" className="label text-right sm:text-left">First Name</label>
             <input
               type="text"
               value={firstName}
               id="firstName"
-              className="bg-[#2D2D2D] text-gray-200 rounded-md p-2.5 border-0 focus:outline-none focus:ring-2 focus:ring-sky-500"
+              className="input"
               onChange={(e) => setFirstName(e.target.value)}
+              required
+              autoComplete="given-name"
             />
 
-            <label
-              htmlFor="lastName"
-              className="text-gray-300 justify-self-end"
-            >
-              Last Name:
-            </label>
+            <label htmlFor="lastName" className="label text-right sm:text-left">Last Name</label>
             <input
               type="text"
               value={lastName}
               id="lastName"
-              className="bg-[#2D2D2D] text-gray-200 rounded-md p-2.5 border-0 focus:outline-none focus:ring-2 focus:ring-sky-500"
+              className="input"
               onChange={(e) => setLastName(e.target.value)}
+              required
+              autoComplete="family-name"
             />
 
-            <label htmlFor="email" className="text-gray-300 justify-self-end">
-              Email:
-            </label>
+            <label htmlFor="email" className="label text-right sm:text-left">Email</label>
             <input
               type="email"
               value={email}
               id="email"
-              className="bg-[#2D2D2D] text-gray-200 rounded-md p-2.5 border-0 focus:outline-none focus:ring-2 focus:ring-sky-500"
+              className="input"
               onChange={(e) => setEmail(e.target.value)}
+              required
+              autoComplete="email"
             />
 
-            <label
-              htmlFor="password"
-              className="text-gray-300 justify-self-end"
-            >
-              Password:
-            </label>
+            <label htmlFor="password" className="label text-right sm:text-left">Password</label>
             <input
               type="password"
               value={password}
               id="password"
-              className="bg-[#2D2D2D] text-gray-200 rounded-md p-2.5 border-0 focus:outline-none focus:ring-2 focus:ring-sky-500"
+              className="input"
               onChange={(e) => setPassword(e.target.value)}
+              required
+              autoComplete="new-password"
+              minLength={6}
             />
 
-            <label
-              htmlFor="confirmPassword"
-              className="text-gray-300 justify-self-end"
-            >
-              Confirm Password:
-            </label>
+            <label htmlFor="confirmPassword" className="label text-right sm:text-left">Confirm Password</label>
             <input
               type="password"
               value={confirmPassword}
               id="confirmPassword"
-              className="bg-[#2D2D2D] text-gray-200 rounded-md p-2.5 border-0 focus:outline-none focus:ring-2 focus:ring-sky-500"
+              className="input"
               onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+              autoComplete="new-password"
+              minLength={6}
             />
-            <button
-              type="submit"
-              className="col-span-2 bg-sky-500 text-white font-semibold py-3 rounded-lg hover:bg-sky-600 transition-colors duration-200 mt-4"
-            >
-              Register
-            </button>
+            <div className="sm:col-span-2 mt-2">
+              <button type="submit" className="btn-primary btn-block">Register</button>
+            </div>
           </form>
+          <p className="text-center text-white/60 text-sm mt-8">
+            Already have an account?{' '}
+            <Link to="/login" className="text-blueC hover:underline font-medium">Login</Link>
+          </p>
         </div>
-        <p className="text-center text-gray-400 mt-8">
-          Already have an account?{" "}
-          <Link to="/login" className="text-sky-400 hover:underline">
-            Login
-          </Link>
-        </p>
       </div>
+      <Footer />
     </>
   );
 }

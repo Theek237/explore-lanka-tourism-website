@@ -1,12 +1,64 @@
-# React + Vite
+# Explore Lanka Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Modern React (Vite) single-page application for the Explore Lanka tourism experience.
 
-Currently, two official plugins are available:
+## Stack
+- React 19 + React Router
+- Vite 6
+- Tailwind CSS (via `@tailwindcss/vite`)
+- GSAP (animations)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Design System (New)
+We introduced lightweight design tokens and utility classes in `src/index.css` to modernize the UI without altering logic.
 
-## Expanding the ESLint configuration
+### Tokens
+Defined under the `:root` selector:
+- Colors: `--color-bg`, `--color-surface`, `--color-accent`, etc.
+- Radius scale: `--radius-xs` … `--radius-xl`
+- Shadows: `--shadow-sm`, `--shadow-md`, `--shadow-lg`
+- Motion: `--dur-fast`, `--ease-out`
+- Typography stacks: `--font-display`, `--font-base`
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Core Utilities Added
+- `.app-container` – centered responsive layout wrapper
+- `.surface` / `.surface-hover` – elevated glassy card surfaces
+- `.btn-primary` – primary branded button
+- `.heading-xl` / `.heading-gradient` – large hero display text
+- `.animate-fade-up` – subtle entrance animation
+
+### Updated Components
+- `NavBar.jsx`: Sticky, blurred, responsive navigation with improved focus states.
+- `LocationCard.jsx`: Elevated cards, lazy-loaded images, semantic `<article>` and `<footer>`.
+- `Home.jsx`: Hero section using new heading and button styles.
+- `Footer.jsx`: Modern responsive footer.
+
+## Extending Styles
+Use existing tokens rather than hard-coded colors. Example:
+```css
+.my-panel { background: var(--color-surface); border-radius: var(--radius-lg); }
+```
+
+For new buttons, extend `.btn-primary` or create a variant:
+```css
+.btn-outline { background: transparent; border:1px solid var(--color-border-accent); color: var(--color-text); }
+.btn-outline:hover { border-color: var(--color-accent); }
+```
+
+## Running Locally
+```powershell
+npm install
+npm run dev
+```
+App serves at the Vite dev URL (default: `http://localhost:5173`).
+
+## Accessibility Notes
+- Focus-visible styles preserved for interactive elements.
+- Semantic elements (`header`, `footer`, `article`, `time`) improve screen reader context.
+
+## Future Improvements
+- Dark/light theme toggle (add `data-theme` swap + alternative token set)
+- Skeleton loaders for image/card placeholders
+- Centralized icon component set
+
+## License
+See project root for licensing details.
