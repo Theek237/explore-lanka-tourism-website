@@ -51,6 +51,38 @@ npm run dev
 ```
 App serves at the Vite dev URL (default: `http://localhost:5173`).
 
+## API Base URL Configuration
+
+The frontend picks the backend origin via `VITE_API_URL`.
+
+Scenarios:
+- Local (docker-compose): backend exposed at `http://localhost:5000`. You can set `VITE_API_URL=http://localhost:5000` or leave unset (defaults to that in code).
+- Production behind Nginx reverse proxy: Nginx serves frontend and proxies `/api/` to backend. Set `VITE_API_URL=/` (or omit) so the app uses relative URLs like `/api/auth/register`.
+
+The utility `src/utils/apiBase.js` normalizes the value (strips trailing slashes, converts single `/` to empty) to avoid malformed requests such as `http://api/...` that appear when a protocol-relative `//api/...` is constructed.
+
+### Troubleshooting Registration/Login
+If registration or login fails:
+1. Open browser Network tab; locate `POST /api/auth/register` or `POST /api/auth/login`.
+2. Verify the request URL begins with your site origin (e.g. `http://13.214.xx.xx/api/...`). If you see `http://api/...`, fix `VITE_API_URL` to `/` or a full origin.
+3. Confirm response status (201 for register, 200 for login). If 401, token or cookie not sent: ensure `withCredentials: true` and same-origin configuration (relative URLs) or correct `CLIENT_URL` on backend CORS.
+4. Check backend container logs for validation or DB errors.
+
+### Environment Variables (Production Compose)
+```yaml
+frontend:
+	environment:
+		- VITE_API_URL=/
+backend:
+	environment:
+		- MONGO_URI=mongodb://mongo:27017/explore_lanka
+		- JWT_SECRET=${JWT_SECRET}
+		# CLIENT_URL can be omitted when using same-origin reverse proxy
+```
+
+To deploy under a custom domain, set `VITE_API_URL=https://your-domain.com` and keep relative endpoint paths in code.
+
+
 ## Accessibility Notes
 - Focus-visible styles preserved for interactive elements.
 - Semantic elements (`header`, `footer`, `article`, `time`) improve screen reader context.

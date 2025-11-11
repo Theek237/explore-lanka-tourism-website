@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import { useAdminAuth } from "../context/AdminAuthContext";
+import { API_BASE } from "../utils/apiBase";
 
 function AdminDashboard() {
-  const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
   const {
     adminUser,
     isAdminAuthenticated,

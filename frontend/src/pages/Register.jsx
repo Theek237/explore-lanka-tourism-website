@@ -3,9 +3,9 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
+import { API_BASE } from "../utils/apiBase";
 
 function Register() {
-  const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");

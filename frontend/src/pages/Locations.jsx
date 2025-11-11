@@ -4,6 +4,7 @@ import LocationCard from "../components/LocationCard";
 import LocationCardSkeleton from "../components/LocationCardSkeleton";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
+import { API_BASE } from "../utils/apiBase";
 
 // Configure axios defaults
 axios.defaults.withCredentials = true;
@@ -13,7 +14,6 @@ function Locations() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
   const fetchLocations = async () => {
     setLoading(true);

@@ -3,11 +3,11 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import LocationDetailSkeleton from "../components/LocationDetailSkeleton";
+import { API_BASE } from "../utils/apiBase";
 
 axios.defaults.withCredentials = true;
 
 function LocationDetail() {
-  const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
   const { identifier } = useParams();
   const [location, setLocation] = useState(null);
   const [error, setError] = useState(null);

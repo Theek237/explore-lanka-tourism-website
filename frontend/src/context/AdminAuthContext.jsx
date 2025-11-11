@@ -8,7 +8,7 @@ import {
 } from "react";
 
 const AdminAuthContext = createContext(null);
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
+import { API_BASE } from "../utils/apiBase";
 
 export function AdminAuthProvider({ children }) {
   const [adminUser, setAdminUser] = useState(null);
