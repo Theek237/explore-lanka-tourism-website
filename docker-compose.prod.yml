@@ -1,21 +1,18 @@
-version: '3.8'
-
 services:
   nginx:
     image: nginx:latest
     ports:
-      - "80:80" 
+      - "80:80"
     volumes:
-      - /home/ubuntu/infra/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf # Simplified path
     depends_on:
       - frontend
       - backend
-  # -----------------------------------------
 
   frontend:
     image: ${DOCKERHUB_USERNAME}/explore-lanka-client:latest
     environment:
-      - VITE_API_URL= 
+      - VITE_API_URL=
     depends_on:
       - backend
 
