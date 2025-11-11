@@ -50,6 +50,8 @@ pipeline {
                 script {
                     echo 'Deploying the new images to AWS server...'
                     dir('infra') {
+                        // Ensure private key has correct permissions for SSH
+                        sh "chmod 600 explore-lanka-key.pem || true"
                         sh "ansible-playbook -i inventory.ini playbook.yml --ssh-common-args='-o StrictHostKeyChecking=no'"
                     }
                 }
