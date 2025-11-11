@@ -13,10 +13,12 @@ function Locations() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
   const fetchLocations = async () => {
     setLoading(true);
     try {
-      const res = await axios.get("http://localhost:5000/api/locations");
+      const res = await axios.get(`${API_BASE}/api/locations`);
       if (Array.isArray(res.data)) {
         setLocations(res.data);
         setError(null);

@@ -5,6 +5,7 @@ import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 
 function Register() {
+  const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -31,8 +32,8 @@ function Register() {
       return;
     }
     try {
-      const res = await axios.post(
-        "http://localhost:5000/api/auth/register",
+      await axios.post(
+        `${API_BASE}/api/auth/register`,
         {
           firstName,
           lastName,

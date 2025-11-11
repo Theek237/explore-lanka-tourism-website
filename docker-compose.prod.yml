@@ -5,6 +5,8 @@ services:
     image: ${DOCKERHUB_USERNAME}/explore-lanka-client:latest
     ports:
       - "80:5173" # Map host's port 80 to container's port 5173
+    environment:
+      - VITE_API_URL=http://backend:5000
     depends_on:
       - backend
 

@@ -4,6 +4,7 @@ import Footer from "../components/Footer";
 import { useAdminAuth } from "../context/AdminAuthContext";
 
 function AdminDashboard() {
+  const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
   const {
     adminUser,
     isAdminAuthenticated,
@@ -30,14 +31,14 @@ function AdminDashboard() {
   const fetchLocations = async () => {
     try {
       setLoading(true);
-      const response = await fetch("http://localhost:5000/api/locations");
+  const response = await fetch(`${API_BASE}/api/locations`);
       if (response.ok) {
         const data = await response.json();
         setLocations(data);
       } else {
         throw new Error("Failed to fetch locations");
       }
-    } catch (error) {
+    } catch {
       setError("Failed to load locations. Please try again.");
     } finally {
       setLoading(false);
@@ -78,8 +79,8 @@ function AdminDashboard() {
 
       const token = localStorage.getItem("adminToken");
       const url = editingLocation
-        ? `http://localhost:5000/api/locations/${editingLocation.id}`
-        : "http://localhost:5000/api/locations";
+        ? `${API_BASE}/api/locations/${editingLocation.id}`
+        : `${API_BASE}/api/locations`;
       const method = editingLocation ? "PUT" : "POST";
 
       const response = await fetch(url, {
@@ -105,7 +106,7 @@ function AdminDashboard() {
         const errorData = await response.json();
         setError(errorData.message || "Failed to save location");
       }
-    } catch (error) {
+    } catch {
       setError("Failed to save location. Please try again.");
     } finally {
       setLoading(false);
@@ -135,7 +136,7 @@ function AdminDashboard() {
       setLoading(true);
       const token = localStorage.getItem("adminToken");
       const response = await fetch(
-        `http://localhost:5000/api/locations/${locationId}`,
+        `${API_BASE}/api/locations/${locationId}`,
         {
           method: "DELETE",
           headers: {
@@ -150,7 +151,7 @@ function AdminDashboard() {
         const errorData = await response.json();
         setError(errorData.message || "Failed to delete location");
       }
-    } catch (error) {
+    } catch {
       setError("Failed to delete location. Please try again.");
     } finally {
       setLoading(false);

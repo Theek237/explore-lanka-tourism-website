@@ -7,6 +7,7 @@ import LocationDetailSkeleton from "../components/LocationDetailSkeleton";
 axios.defaults.withCredentials = true;
 
 function LocationDetail() {
+  const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
   const { identifier } = useParams();
   const [location, setLocation] = useState(null);
   const [error, setError] = useState(null);
@@ -17,7 +18,7 @@ function LocationDetail() {
     (async () => {
       try {
         const res = await axios.get(
-          `http://localhost:5000/api/locations/${identifier}`
+          `${API_BASE}/api/locations/${identifier}`
         );
         if (active) {
           setLocation(res.data);
