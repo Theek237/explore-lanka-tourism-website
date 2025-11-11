@@ -4,6 +4,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from "react";
 
@@ -15,10 +16,12 @@ export function AdminAuthProvider({ children }) {
   const [ready, setReady] = useState(false);
   const [error, setError] = useState(null);
 
-  const axiosClient = axios.create({
-    baseURL: API_BASE,
-    withCredentials: true,
-  });
+  const axiosClient = useMemo(() => {
+    return axios.create({
+      baseURL: API_BASE,
+      withCredentials: true,
+    });
+  }, [API_BASE]);
 
   const fetchAdminMe = useCallback(async () => {
     try {
@@ -58,13 +61,17 @@ export function AdminAuthProvider({ children }) {
         return false;
       }
     }
-  }, [axiosClient, adminUser]);
+  }, [axiosClient]);
 
   useEffect(() => {
+    let cancelled = false;
     (async () => {
-      await fetchAdminMe();
-      setReady(true);
+      const didFetch = await fetchAdminMe();
+      if (!cancelled) setReady(true);
     })();
+    return () => {
+      cancelled = true;
+    };
   }, [fetchAdminMe]);
 
   const adminLogin = async (credentials) => {

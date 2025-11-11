@@ -4,6 +4,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from "react";
 
@@ -15,10 +16,13 @@ export function AuthProvider({ children }) {
   const [ready, setReady] = useState(false);
   const [error, setError] = useState(null);
 
-  const axiosClient = axios.create({
-    baseURL: API_BASE,
-    withCredentials: true,
-  });
+  // Create a stable axios instance so effects/callbacks don't re-run on every render
+  const axiosClient = useMemo(() => {
+    return axios.create({
+      baseURL: API_BASE,
+      withCredentials: true,
+    });
+  }, [API_BASE]);
 
   const fetchMe = useCallback(async () => {
     try {
@@ -44,13 +48,17 @@ export function AuthProvider({ children }) {
         return false;
       }
     }
-  }, [axiosClient, user]);
+  }, [axiosClient]);
 
   useEffect(() => {
+    let cancelled = false;
     (async () => {
-      await fetchMe();
-      setReady(true);
+      const didFetch = await fetchMe();
+      if (!cancelled) setReady(true);
     })();
+    return () => {
+      cancelled = true;
+    };
   }, [fetchMe]);
 
   const register = async (form) => {
