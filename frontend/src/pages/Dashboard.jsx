@@ -3,6 +3,7 @@ import NavBar from "../components/NavBar";
 
 export default function Dashboard() {
   return (
+    //#
     <div className="min-h-screen bg-bgC text-white">
       <NavBar />
       <div className="container mx-auto px-4 pt-16">
