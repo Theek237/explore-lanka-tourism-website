@@ -7,4 +7,5 @@ export const ENV_VARS = {
   PORT: process.env.PORT || 5000,
   JWT_SECRET: process.env.JWT_SECRET,
   CLIENT_URL: process.env.CLIENT_URL,
+  GEMINI_API_KEY: process.env.GEMINI_API_KEY,
 };

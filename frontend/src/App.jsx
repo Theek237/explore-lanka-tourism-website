@@ -14,6 +14,8 @@ import Locations from "./pages/Locations.jsx";
 import Login from "./pages/Login.jsx";
 import Logout from "./pages/Logout.jsx";
 import Register from "./pages/Register.jsx";
+import TravelPlanner from "./pages/TravelPlanner.jsx";
+import TravelPlanResult from "./pages/TravelPlanResult.jsx";
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
@@ -56,6 +58,10 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/logout" element={<Logout />} />
+
+          {/* Public: Travel Planner */}
+          <Route path="/travel-planner" element={<TravelPlanner />} />
+          <Route path="/travel-planner/result" element={<TravelPlanResult />} />
 
           {/* Admin routes */}
           <Route path="/explore-lanka-admin" element={<AdminLogin />} />
