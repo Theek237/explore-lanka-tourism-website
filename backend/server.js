@@ -5,6 +5,7 @@ import { connectDB } from "./config/db.js";
 import { ENV_VARS } from "./config/envVars.js";
 import authRoutes from "./routes/authRoutes.js";
 import locationRoutes from "./routes/locationRoutes.js";
+import travelPlanRoutes from "./routes/travelPlanRoutes.js";
 
 const app = express(); // Create an Express application
 app.use(
@@ -28,6 +29,7 @@ app.get("/test", (req, res) => {
 
 app.use("/api/auth", authRoutes); // Use the auth routes
 app.use("/api/locations", locationRoutes); // Register the locations route
+app.use("/api/travel-plan", travelPlanRoutes); // Travel planner endpoint
 
 const PORT = ENV_VARS.PORT;
 

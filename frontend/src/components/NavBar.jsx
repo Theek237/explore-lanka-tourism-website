@@ -46,8 +46,13 @@ function NavBar() {
             <li className="hidden md:block text-white/50 hover:text-white/80 transition-colors px-2 py-1">
               TRAVEL TIPS
             </li>
-            <li className="hidden lg:block text-white/50 hover:text-white/80 transition-colors px-2 py-1">
-              TRAVEL PLANNER
+            <li className="hidden lg:block">
+              <Link
+                to="/travel-planner"
+                className="px-2 py-1 rounded-md transition-colors duration-200 text-white/50 hover:text-white/80"
+              >
+                TRAVEL PLANNER
+              </Link>
             </li>
             {loggedIn ? (
               <li>
