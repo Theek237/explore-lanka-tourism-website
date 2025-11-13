@@ -1,1 +1,13 @@
+## Sensitive keys
+# Ignore all PEM keys in this folder
+*.pem
+# Explicitly ensure this key is ignored
 explore-lanka-key.pem
+
+## Terraform local state and caches
+.terraform/
+terraform.tfstate
+terraform.tfstate.*
+crash.log
+crash.*.log
+.terraform.lock.hcl
