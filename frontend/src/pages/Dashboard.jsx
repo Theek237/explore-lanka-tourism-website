@@ -9,7 +9,7 @@ export default function Dashboard() {
       <div className="container mx-auto px-4 pt-16">
         <div className="text-center mb-16">
           <h1 className="font-koulen text-6xl md:text-8xl tracking-tight mb-6 bg-gradient-to-r from-blueC to-blue-300 bg-clip-text text-transparent">
-            Welcome Back, Explorer
+            Welcome Back, Explorer...
           </h1>
           <p className="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
             Your Sri Lankan adventure awaits. Discover hidden gems, plan your
