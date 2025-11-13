@@ -53,7 +53,7 @@ pipeline {
                 sshagent(credentials: ['aws-ssh-key']) {
                     script {
                         echo 'Deploying the new images to AWS server...'
-                        dir('infra') {
+                        dir('infra/ansible') {
                             sh """
                               ansible-playbook -i inventory.ini playbook.yml \\
                                 --ssh-common-args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
