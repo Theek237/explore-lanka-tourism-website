@@ -5,6 +5,8 @@
 
   vars:
     dockerhub_username: "theek237"
+    # This is passed from Jenkins as an extra-var: -e gemini_api_key=...
+    gemini_api_key: ""
 
   tasks:
     - name: Update apt packages
@@ -58,6 +60,7 @@
       shell: |
         export DOCKERHUB_USERNAME={{ dockerhub_username }}
         export JWT_SECRET=thisisjustarandomsecretfornow
+        export GEMINI_API_KEY={{ gemini_api_key }}
         docker compose -f /home/ubuntu/docker-compose.yml pull
         docker compose -f /home/ubuntu/docker-compose.yml up -d
       args:
