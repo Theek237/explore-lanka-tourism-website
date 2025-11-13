@@ -3,10 +3,22 @@
 // - In prod behind nginx, set it to empty or omit entirely and we will use relative URLs
 
 export const API_BASE = (() => {
-  let base = import.meta?.env?.VITE_API_URL ?? "";
-  if (!base) return ""; // use relative
-  // Treat a single slash as relative base
-  if (base === "/") return "";
-  // Remove any trailing slashes to avoid protocol-relative URLs (e.g., //api/...)
-  return String(base).replace(/\/+$/, "");
+  const envBase = import.meta?.env?.VITE_API_URL;
+
+  // If explicitly configured, normalize it
+  if (envBase !== undefined && envBase !== null && envBase !== "") {
+    if (envBase === "/") return ""; // treat single slash as relative base
+    return String(envBase).replace(/\/+$/, ""); // trim trailing slashes
+  }
+
+  // Fallback for local development: if app runs on localhost, default backend port 5000
+  if (typeof window !== "undefined") {
+    const host = window.location.hostname;
+    if (host === "localhost" || host === "127.0.0.1") {
+      return "http://localhost:5000";
+    }
+  }
+
+  // Default to relative (works in production behind reverse proxy)
+  return "";
 })();
