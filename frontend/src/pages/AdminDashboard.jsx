@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import { useAdminAuth } from "../context/AdminAuthContext";
 import { API_BASE } from "../utils/apiBase";
 
 function AdminDashboard() {
-  const {
-    adminUser,
-    isAdminAuthenticated,
-    adminLogout,
-  } = useAdminAuth();
+  const navigate = useNavigate();
+  const { adminUser, isAdminAuthenticated, adminLogout } = useAdminAuth();
   const [locations, setLocations] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -170,8 +168,9 @@ function AdminDashboard() {
     setError("");
   };
 
-  const handleLogout = () => {
-    adminLogout();
+  const handleLogout = async () => {
+    await adminLogout();
+    navigate("/explore-lanka-admin", { replace: true });
   };
 
   if (!isAdminAuthenticated) {
