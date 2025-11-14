@@ -8,7 +8,7 @@ function AdminDashboard() {
   const {
     adminUser,
     isAdminAuthenticated,
-    logout: adminLogout,
+    adminLogout,
   } = useAdminAuth();
   const [locations, setLocations] = useState([]);
   const [error, setError] = useState("");
