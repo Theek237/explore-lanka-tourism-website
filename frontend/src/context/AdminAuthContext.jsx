@@ -112,7 +112,9 @@ export function AdminAuthProvider({ children }) {
         ready,
         error,
         adminLogin,
+        // Provide both keys for backward compatibility with older bundles
         adminLogout,
+        logout: adminLogout,
         refreshAdminUser,
         isAdminAuthenticated: !!adminUser,
       }}
