@@ -37,7 +37,7 @@ data "aws_ami" "ubuntu" {
 # Create EC2 instance
 resource "aws_instance" "app_server" {
   ami           = data.aws_ami.ubuntu.id
-  instance_type = "t3.micro" # Free tier eligible in many regions 
+  instance_type = "t3.micro" 
   key_name      = aws_key_pair.app_key_pair.key_name
   
   vpc_security_group_ids = [aws_security_group.app_sg.id]

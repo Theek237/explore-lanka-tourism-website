@@ -71,7 +71,6 @@ pipeline {
 
     post {
         always {
-            // log out from docker hub
             echo 'Logging out from Docker Hub...'
             sh 'docker logout'
             echo 'Pipeline finished.'
