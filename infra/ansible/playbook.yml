@@ -54,7 +54,7 @@
     - name: Copy nginx.conf to the server
       copy:
         src: nginx.conf
-        dest: /home/ubuntu/nginx.conf # Changed destination
+        dest: /home/ubuntu/nginx.conf 
 
     - name: Run docker compose up
       shell: |

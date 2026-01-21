@@ -4,7 +4,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf # Simplified path
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf 
     depends_on:
       - frontend
       - backend
@@ -26,10 +26,6 @@ services:
     depends_on:
       - mongo
   
-  # One-off admin seeder (run on demand)
-  # Usage examples:
-  #   docker compose -f docker-compose.prod.yml --profile seeder run --rm admin-seeder
-  #   ADMIN_EMAIL=admin@example.com ADMIN_PASSWORD='S3cure!' docker compose -f docker-compose.prod.yml --profile seeder run --rm admin-seeder
   admin-seeder:
     image: ${DOCKERHUB_USERNAME}/explore-lanka-server:latest
     command: node createAdmin.js
