@@ -3,7 +3,7 @@ resource "tls_private_key" "app_key" {
   algorithm = "RSA"
   rsa_bits  = 4096
 }
-
+//
 # Save the generated private key
 resource "local_file" "private_key_pem" {
   content         = tls_private_key.app_key.private_key_pem
@@ -31,7 +31,7 @@ data "aws_ami" "ubuntu" {
     values = ["hvm"]
   }
 
-  owners = ["099720109477"] # Canonical's owner ID
+  owners = ["099720109477"] # Canonical's owner ID//
 }
 
 # Create EC2 instance
@@ -41,6 +41,12 @@ resource "aws_instance" "app_server" {
   key_name      = aws_key_pair.app_key_pair.key_name
   
   vpc_security_group_ids = [aws_security_group.app_sg.id]
+
+  # Increase root volume size to 20GB for Docker images
+  root_block_device {
+    volume_size = 20
+    volume_type = "gp3"
+  }
 
   tags = {
     Name = "Explore-Lanka-Server"
