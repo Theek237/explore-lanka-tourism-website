@@ -42,6 +42,12 @@ resource "aws_instance" "app_server" {
   
   vpc_security_group_ids = [aws_security_group.app_sg.id]
 
+  # Increase root volume size to 20GB for Docker images
+  root_block_device {
+    volume_size = 20
+    volume_type = "gp3"
+  }
+
   tags = {
     Name = "Explore-Lanka-Server"
   }
