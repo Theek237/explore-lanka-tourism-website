@@ -3,7 +3,7 @@ resource "tls_private_key" "app_key" {
   algorithm = "RSA"
   rsa_bits  = 4096
 }
-
+//
 # Save the generated private key
 resource "local_file" "private_key_pem" {
   content         = tls_private_key.app_key.private_key_pem
