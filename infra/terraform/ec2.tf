@@ -31,7 +31,7 @@ data "aws_ami" "ubuntu" {
     values = ["hvm"]
   }
 
-  owners = ["099720109477"] # Canonical's owner ID
+  owners = ["099720109477"] # Canonical's owner ID//
 }
 
 # Create EC2 instance
