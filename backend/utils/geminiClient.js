@@ -3,7 +3,7 @@ import { ENV_VARS } from "../config/envVars.js";
 // Minimal client for Google Generative Language API (Gemini) using native fetch (Node 18+)
 // Docs: https://ai.google.dev/api/rest
 
-const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
+const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
 
 /**
  * Call Gemini to generate a travel plan.
@@ -44,6 +44,12 @@ export async function callGemini(promptPayload) {
 
   if (!res.ok) {
     const errText = await res.text().catch(() => "");
+    
+    // Handle quota exceeded specifically
+    if (res.status === 429) {
+      throw new Error("Gemini API quota exceeded. Please try again later or upgrade your plan.");
+    }
+    
     throw new Error(`Gemini API error ${res.status}: ${errText}`);
   }
 
