@@ -181,6 +181,20 @@ export default function TravelPlanResult() {
                 </section>
               )}
 
+              {Array.isArray(plan.travelTips) && plan.travelTips.length > 0 && (
+                <section className="bg-white/5 rounded-xl p-6">
+                  <h2 className="font-koulen text-2xl mb-3">Travel Tips</h2>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {plan.travelTips.map((t, i) => (
+                      <div key={i} className="bg-white/5 rounded-lg p-3">
+                        <div className="text-amber-400 text-sm font-semibold mb-1">{t.category}</div>
+                        <p className="text-white/80 text-sm">{t.tip}</p>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              )}
+
               {Array.isArray(plan.links) && plan.links.length > 0 && (
                 <section className="bg-white/5 rounded-xl p-6">
                   <h2 className="font-koulen text-2xl mb-3">Helpful Links</h2>
