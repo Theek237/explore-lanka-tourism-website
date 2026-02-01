@@ -3,7 +3,7 @@ import { ENV_VARS } from "../config/envVars.js";
 // Minimal client for Google Generative Language API (Gemini) using native fetch (Node 18+)
 // Docs: https://ai.google.dev/api/rest
 
-const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent";
+const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent";
 
 /**
  * Call Gemini to generate a travel plan.
@@ -24,9 +24,9 @@ export async function callGemini(promptPayload) {
     ],
     generationConfig: {
       temperature: 0.7,
-      topK: 40,
+      topK: 64,
       topP: 0.95,
-      maxOutputTokens: 2048,
+      maxOutputTokens: 8192,
       // Force the model to return pure JSON (no markdown/code fences)
       response_mime_type: "application/json",
     },
