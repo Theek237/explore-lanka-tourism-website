@@ -74,7 +74,7 @@ export default function App() {
             }
           />
 
-          {/* Fallback */}
+          {/* Fallback ttesr */}
           <Route
             path="*"
             element={
