@@ -46,7 +46,7 @@ export function AdminAuthProvider({ children }) {
           headers: { Authorization: `Bearer ${stored}` },
         });
 
-        // Check if user is admin
+        
         if (data.role !== "admin") {
           localStorage.removeItem("adminToken");
           setAdminUser(null);
