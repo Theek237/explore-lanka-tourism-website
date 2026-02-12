@@ -19,7 +19,7 @@ function AdminDashboard() {
     image: "",
     coordinates: { lat: "", lng: "" },
   });
-
+ ////check p
   useEffect(() => {
     if (isAdminAuthenticated) {
       fetchLocations();

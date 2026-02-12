@@ -50,18 +50,27 @@ pipeline {
 
         stage('Deploy to AWS') {
             steps {
-                sshagent(credentials: ['aws-ssh-key']) {
-                    // Bind GEMINI_API_KEY from Jenkins Credentials (Secret text with ID 'gemini-api-key')
-                    withCredentials([string(credentialsId: 'gemini-api-key', variable: 'GEMINI_API_KEY')]) {
-                        script {
-                            echo 'Deploying the new images to AWS server...'
-                            dir('infra/ansible') {
-                                sh """
-                                  ansible-playbook -i inventory.ini playbook.yml \\
-                                    -e gemini_api_key=${GEMINI_API_KEY} \\
-                                    --ssh-common-args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
-                                """
+                script {
+                    try {
+                        sshagent(credentials: ['aws-ssh-key']) {
+                            // Bind GEMINI_API_KEY from Jenkins Credentials (Secret text with ID 'gemini-api-key')
+                            withCredentials([string(credentialsId: 'gemini-api-key', variable: 'GEMINI_API_KEY')]) {
+                                echo 'Deploying the new images to AWS server...'
+                                dir('infra/ansible') {
+                                    sh '''
+                                      ansible-playbook -i inventory.ini playbook.yml \
+                                        -e gemini_api_key=$GEMINI_API_KEY \
+                                        --ssh-common-args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
+                                    '''
+                                }
                             }
+                        }
+                    } catch (e) {
+                        // ssh-agent plugin may throw IOException during cleanup even after successful deployment
+                        if (e.toString().contains('ssh-agent')) {
+                            echo "Ignoring ssh-agent cleanup error: ${e.message}"
+                        } else {
+                            throw e
                         }
                     }
                 }
