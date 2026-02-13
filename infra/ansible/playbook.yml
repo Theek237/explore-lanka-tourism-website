@@ -56,6 +56,10 @@
         src: nginx.conf
         dest: /home/ubuntu/nginx.conf 
 
+    - name: Clean up unused Docker resources
+      shell: docker system prune -af
+      ignore_errors: yes
+
     - name: Run docker compose up
       shell: |
         export DOCKERHUB_USERNAME={{ dockerhub_username }}
