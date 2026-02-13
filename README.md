@@ -12,7 +12,7 @@ A full-stack tourism website for Sri Lanka featuring AI-powered travel planning,
 - **Responsive Design**: Mobile-friendly interface built with React
 
 
-#Test
+
 
 ## 🏗️ Architecture
 
