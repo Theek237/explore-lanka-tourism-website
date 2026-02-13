@@ -36,7 +36,7 @@ function Login() {
           <div className="form-header">
             <h1 className="heading-xl font-koulen mb-2 heading-gradient">Log In</h1>
             <p className="subtext text-white/70 max-w-md mx-auto">
-              Your next adventure is just a one password away.
+              Login Now Theekshana
             </p>
           </div>
           {(error || submitError) && (
